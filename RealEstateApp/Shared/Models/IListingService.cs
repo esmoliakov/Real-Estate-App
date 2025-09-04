@@ -1,9 +1,11 @@
+using Shared.Models;
+
 namespace Shared.Models;
 
 public interface IListingService
 {
     Task<List<Listing>> GetListingsAsync(); // return all listings
     Task<Listing> GetListingsByIdAsync(int Id); // return listing by id while clicking the listing
-    Task<Listing> AddListingAsync(ListingUploadDTO listingDTO); // add listing
+    Task<Listing> AddListingAsync(ListingDTO listingDTO); // add listing
 
 }

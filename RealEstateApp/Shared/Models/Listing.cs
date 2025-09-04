@@ -1,21 +1,24 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 namespace Shared.Models;
 
 public class Listing
 {
     public int Id { get; set; }
-    [required]
+    [Required]
     public string Type { get; set; }
-    [required]
+    [Required]
     public string Place { get; set; }
-    [required]
+    [Required]
     public double Area { get; set; }
-    [required]
+    [Required]
     public decimal Price { get; set; }
-    [required]
+    [Required]
     public string Description { get; set; }
-    [required]
-    public Listing<string> ImageUrls { get; set; } = new();
+    [Required]
+    public List<string> ImageUrls { get; set; } = new();
 
-    
-    
+
+
 }
