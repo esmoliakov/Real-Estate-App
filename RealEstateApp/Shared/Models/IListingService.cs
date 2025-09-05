@@ -1,6 +1,6 @@
 using Shared.Models;
 
-namespace Shared.Models;
+namespace Shared.Services;
 
 public interface IListingService
 {

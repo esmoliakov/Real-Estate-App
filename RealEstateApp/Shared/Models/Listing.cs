@@ -16,9 +16,4 @@ public class Listing
     public decimal Price { get; set; }
     [Required]
     public string Description { get; set; }
-    [Required]
-    public List<string> ImageUrls { get; set; } = new();
-
-
-
 }
