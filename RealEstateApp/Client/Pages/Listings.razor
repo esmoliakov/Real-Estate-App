@@ -1,0 +1,30 @@
+@page "/listings"
+@using RealEstateApp.Shared.Models;
+
+<h3>Property listings</h3>
+
+@if (listings == null)
+{
+    <p>Loading...</p>
+}
+else if (listings.Count == null)
+{
+    <p>No listings available</p>
+}
+else
+{
+    <ul>
+        @foreach (var listing in listings)
+        {
+            <li>
+                <strong>@listing.Type</strong> in @listing.Place - @listing.Area m², @listing.Price.ToString("C")
+            </li>
+        }
+    </ul>
+}
+
+@code
+{
+    private List<Listing>? listings;
+    
+}

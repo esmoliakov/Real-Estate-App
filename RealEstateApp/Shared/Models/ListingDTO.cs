@@ -1,4 +1,4 @@
-namespace Shared.Models;
+namespace RealEstateApp.Shared.Models;
 
 public class ListingDTO
 {

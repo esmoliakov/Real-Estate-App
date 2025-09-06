@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Shared.Models;
+namespace RealEstateApp.Shared.Models;
 
 public class Listing
 {

@@ -1,3 +1,4 @@
+using System.Net.Security;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using RealEstateApp.Client;

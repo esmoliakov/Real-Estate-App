@@ -1,4 +1,4 @@
-using Shared.Models;
+using RealEstateApp.Shared.Models;
 
 namespace Shared.Services;
 
