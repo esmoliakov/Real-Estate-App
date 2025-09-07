@@ -1,9 +1,74 @@
 @page "/upload"
 
+@using RealEstateApp.Shared.Models;
+@inject RealEstateApp.Client.Services.ListingApiService ListingApiService;
+@inject NavigationManager NavigationManager
+
 <pageTitle>Upload listing</pageTitle>
 <h3>You can upload a listing here</h3>
 
-<form>
-    
+<EditForm Model="@newListing" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-</form>
+    <div class="mb-2">
+        <label>Type</label>
+        <InputText class="form-control" @bind-Value="newListing.Type" />
+    </div>
+
+    <div class="mb-2">
+        <label>Place</label>
+        <InputText class="form-control" @bind-Value="newListing.Place" />
+    </div>
+
+    <div class="mb-2">
+        <label>Area (m²)</label>
+        <InputNumber class="form-control" @bind-Value="newListing.Area" />
+    </div>
+
+    <div class="mb-2">
+        <label>Price</label>
+        <InputNumber class="form-control" @bind-Value="newListing.Price" />
+    </div>
+
+    <div class="mb-2">
+        <label>Description</label>
+        <InputTextArea class="form-control" @bind-Value="newListing.Description" />
+    </div>
+
+    <button type="submit" class="btn btn-primary" disabled="@isSubmitting">Submit</button>
+
+    @if (!string.IsNullOrEmpty(formError))
+    {
+        <div class="text-danger mt-2">@formError</div>
+    }
+</EditForm>
+
+@code {
+    private ListingDTO newListing = new ListingDTO();
+    private bool isSubmitting;
+    private string? formError;
+
+    private async Task HandleValidSubmit()
+    {
+        formError = null;
+        isSubmitting = true;
+
+        try
+        {
+            // Call API to add the listing
+            var created = await ListingApiService.AddListingAsync(newListing);
+
+            // Redirect to listings page after successful upload
+            NavigationManager.NavigateTo("/listings");
+        }
+        catch (Exception ex)
+        {
+            formError = $"Failed to upload listing: {ex.Message}";
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+}
