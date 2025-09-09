@@ -4,34 +4,42 @@
 @inject RealEstateApp.Client.Services.ListingApiService ListingApiService;
 @inject NavigationManager NavigationManager
 
-<pageTitle>Upload listing</pageTitle>
-<h3>You can upload a listing here</h3>
+<PageTitle>Upload a listing</PageTitle>
+<div class="topbar">
+    <span class="brand">RealeCOM</span>
+    <nav>
+        <!-- future links-->
+        <!-- <a href="/listings">Listings</a> -->
+        <!-- <a href="/about">About</a> -->
+    </nav>
+</div>
 
+<h3>You can upload a listing here</h3>
 <EditForm Model="@newListing" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <div class="mb-2">
+    <div class="form-row">
         <label>Type</label>
         <InputText class="form-control" @bind-Value="newListing.Type" />
     </div>
 
-    <div class="mb-2">
+    <div class="form-row">
         <label>Place</label>
         <InputText class="form-control" @bind-Value="newListing.Place" />
     </div>
 
-    <div class="mb-2">
+    <div class="form-row">
         <label>Area (m²)</label>
         <InputNumber class="form-control" @bind-Value="newListing.Area" />
     </div>
 
-    <div class="mb-2">
+    <div class="form-row">
         <label>Price</label>
         <InputNumber class="form-control" @bind-Value="newListing.Price" />
     </div>
 
-    <div class="mb-2">
+    <div class="Description">
         <label>Description</label>
         <InputTextArea class="form-control" @bind-Value="newListing.Description" />
     </div>

@@ -1,0 +1,130 @@
+body {
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f9fafb;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.topbar {
+    background: #0f3d2e;
+    color: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+}
+
+.topbar span.brand {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-right: 2rem;
+}
+
+/* future links */
+.topbar nav a {
+    color: #fff;
+    margin-right: 1.5rem;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+}
+
+.topbar nav a:hover {
+    color: #b9e2c7;
+}
+
+h3 {
+    margin: 2rem 0 1rem;
+    text-align: center;
+    color: #0f3d2e;
+    font-weight: 600;
+}
+
+EditForm {
+    display: block;
+    max-width: 450px;
+    margin: 1rem auto 3rem;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+}
+
+label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    display: inline-block;
+    color: #333;
+}
+
+.form-control {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    border: 1px solid #cfd6dd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.form-control:focus {
+    border-color: #0f3d2e;
+    box-shadow: 0 0 4px rgba(15, 61, 46, 0.25);
+}
+
+
+
+.btn-primary {
+    background: #0f3d2e;
+    border: none;
+    border-radius: 5px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.1s ease;
+    width: 100%;
+}
+
+.btn-primary:hover:not([disabled]) {
+    background: #145c44;
+    transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+    background: #9eb3aa;
+    cursor: not-allowed;
+}
+
+.text-danger {
+    font-size: 0.85rem;
+    margin-top: 0.4rem;
+    color: #d9534f;
+    text-align: center;
+}
+.form-row {
+    display: flex;
+    width: 160px;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.form-row label {
+    width: 120px;
+    margin: 0;
+}
+
+.form-row .form-control {
+    width: 250px;
+}
+
+.Description {
+    min-height: 200px;
+    width: 300px;
+    resize: both;
+    overflow: auto;
+}

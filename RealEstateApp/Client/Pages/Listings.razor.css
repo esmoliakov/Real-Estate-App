@@ -1,0 +1,54 @@
+.listings-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+}
+
+.listings-container h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #0f3d2e;
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+
+.listings-container p {
+    font-size: 0.95rem;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.listings-container .text-danger {
+    color: #d9534f;
+    font-weight: 600;
+}
+
+.listings-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.listings-container li {
+    background: #f9fafb;
+    padding: 1rem 1.25rem;
+    border-radius: 6px;
+    margin-bottom: 0.8rem;
+    border: 1px solid #e1e6eb;
+    font-size: 0.95rem;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.listings-container li strong {
+    color: #0f3d2e;
+    font-weight: 600;
+}
+
+.listings-container li:hover {
+    background: #eef6f1;
+    transform: translateY(-2px);
+}
