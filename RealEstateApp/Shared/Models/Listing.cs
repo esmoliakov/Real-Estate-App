@@ -6,7 +6,7 @@ namespace RealEstateApp.Shared.Models;
 public class Listing
 {
     public int Id { get; set; }
-    [Required]
+    [Required(ErrorMessage = "Please select a type.")]
     public string Type { get; set; }
     [Required]
     public string Place { get; set; }

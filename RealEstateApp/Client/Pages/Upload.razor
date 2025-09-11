@@ -21,11 +21,15 @@
 
     <div class="form-row">
         <label>Type</label>
-        <InputText class="form-control" @bind-Value="newListing.Type" />
+        <InputSelect class="form-control" @bind-Value="newListing.Type">
+            <option value="" disabled selected hidden>-- Select Type --</option>
+            <option value="Apartment">Apartment</option>
+            <option value="House">House</option>
+        </InputSelect>
     </div>
 
     <div class="form-row">
-        <label>Place</label>
+        <label>District</label>
         <InputText class="form-control" @bind-Value="newListing.Place" />
     </div>
 

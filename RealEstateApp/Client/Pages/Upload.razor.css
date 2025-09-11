@@ -109,7 +109,7 @@ label {
 }
 .form-row {
     display: flex;
-    width: 160px;
+    width: 220px;
     align-items: center;
     margin-bottom: 1rem;
 }
