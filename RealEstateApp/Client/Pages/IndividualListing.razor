@@ -1,0 +1,64 @@
+@page "/listing/{id:int}"
+
+@using RealEstateApp.Shared.Models
+@inject Client.Services.ListingApiService ListingApiService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Listing</PageTitle>
+<div class="topbar">
+    <span class="brand">RealeCOM</span>
+    <nav>
+        <a href="/">Home page</a>
+        <a href="/upload">Upload a listing</a>
+    </nav>
+</div>
+
+
+@if (isLoading)
+{
+    <p>Loading listing...</p>
+}
+else if (!string.IsNullOrEmpty(loadError))
+{
+    <p class="text-danger">@loadError</p>
+}
+else if (listing == null)
+{
+    <p>Listing not found</p>
+}
+else 
+{
+    <div class="listing-details">
+        <h2>@listing.Type in @listing.Place</h2>
+        <p><strong>Area:</strong> @listing.Area m²</p>
+        <p><strong>Price:</strong> @listing.Price.ToString("C")</p>
+        <p><strong>Description:</strong> @listing.Description</p>
+    </div>
+}
+
+
+@code
+{
+    [Parameter] public int id {get; set;}
+
+    private Listing? listing;
+    private bool isLoading;
+    private string? loadError;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        try
+        {
+            listing = await ListingApiService.GetListingByIdAsync(id);
+        }
+                catch (Exception ex)
+        {
+            loadError = ex.Message;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

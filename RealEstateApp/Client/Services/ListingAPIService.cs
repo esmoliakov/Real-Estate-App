@@ -21,4 +21,8 @@ public class ListingApiService
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadFromJsonAsync<Listing>();
     }
+    public async Task<Listing> GetListingByIdAsync(int id)
+    {
+        return await _http.GetFromJsonAsync<Listing>($"api/listings/{id}");
+    }
 }

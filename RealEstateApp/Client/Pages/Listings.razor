@@ -34,7 +34,9 @@
             @foreach (var listing in listings)
             {
                 <li>
-                    <strong>@listing.Type</strong> in @listing.Place — @listing.Area m², @listing.Price.ToString("C")
+                    <a href="/listing/@listing.Id">
+                        <strong>@listing.Type</strong> in @listing.Place — @listing.Area m², @listing.Price.ToString("C")
+                    </a>
                 </li>
             }
         </ul>
