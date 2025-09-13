@@ -1,6 +1,17 @@
-@page "/listings"
+@page "/"
 @using RealEstateApp.Shared.Models
 @inject Client.Services.ListingApiService ListingApiService
+
+
+<PageTitle>RealeCOM</PageTitle>
+<div class="topbar">
+    <span class="brand">RealeCOM</span>
+    <nav>
+        <a href="/upload">Upload a listing</a>
+    </nav>
+</div>
+
+
 
 <div class="listings-container">
     <h3>Property listings</h3>
