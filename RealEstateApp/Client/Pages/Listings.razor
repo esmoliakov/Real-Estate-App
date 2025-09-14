@@ -54,7 +54,7 @@
         isLoading = true;
         try
         {
-            listings = await ListingApiService.GetListingsAsync();
+            listings = await ListingApiService.GetListingsAsync() ?? new List<Listing>();
         }
         catch (Exception ex)
         {
