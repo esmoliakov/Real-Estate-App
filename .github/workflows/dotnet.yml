@@ -23,23 +23,11 @@ jobs:
       with:
         dotnet-version: '9.0'
 
-    - name: Restore Shared
-      run: dotnet restore RealEstateApp/Shared/RealEstateApp.Shared.sln
+    - name: Restore dependencies
+      run: dotnet restore RealEstateApp/RealEstateApp.sln
 
-    - name: Restore Client
-      run: dotnet restore RealEstateApp/Client/RealEstateApp.Client.sln
-
-    - name: Restore Server
-      run: dotnet restore RealEstateApp/Server/RealEstateApp.Server.sln
-
-    - name: Build Shared
-      run: dotnet build RealEstateApp/Shared/RealEstateApp.Shared.sln --configuration Debug
-
-    - name: Build Client
-      run: dotnet build RealEstateApp/Client/RealEstateApp.Client.sln --configuration Debug
-
-    - name: Build Server
-      run: dotnet build RealEstateApp/Server/RealEstateApp.Server.sln --configuration Debug
+    - name: Build solution
+      run: dotnet build RealEstateApp/RealEstateApp.sln --no-restore --configuration Debug
 
     - name: Run tests
       run: dotnet test --no-restore --verbosity normal
