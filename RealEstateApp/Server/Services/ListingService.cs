@@ -14,13 +14,13 @@ class ListingService : IListingService
         return Task.FromResult(_listings);
     }
 
-    public Task<Listing> GetListingsByIdAsync(int id)
+    public Task<Listing?> GetListingsByIdAsync(int id)
     {
         var listing = _listings.FirstOrDefault(l => l.Id == id);
         return Task.FromResult(listing);
     }
 
-    public async Task<Listing> AddListingAsync(ListingDTO listingDTO)
+    public Task<Listing> AddListingAsync(ListingDTO listingDTO)
     {
         var listing = new Listing
         {
@@ -33,6 +33,6 @@ class ListingService : IListingService
         };
         _listings.Add(listing);
 
-        return listing;
+        return Task.FromResult(listing);
     }
 }
