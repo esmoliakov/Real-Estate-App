@@ -33,5 +33,5 @@ jobs:
     #  run: dotnet test --no-restore --verbosity normal
 
 
-    #- name: Publish
-    #  run: dotnet publish RealEstateApp.Server/RealEstateApp.Server.csproj -c Release -o published
+    - name: Publish
+      run: dotnet publish RealEstateApp/RealEstateApp.Server/RealEstateApp.Server.csproj -c Release -o published
