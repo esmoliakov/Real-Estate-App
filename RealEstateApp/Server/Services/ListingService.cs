@@ -27,7 +27,7 @@ class ListingService : IListingService
             Id = _nextId++,
             Type = listingDTO.Type,
             Area = listingDTO.Area,
-            Place = listingDTO.Place,
+            Address = listingDTO.Address,
             Description = listingDTO.Description,
             Price = listingDTO.Price
         };
