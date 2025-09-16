@@ -27,9 +27,21 @@ class ListingService : IListingService
             Id = _nextId++,
             Type = listingDTO.Type,
             Area = listingDTO.Area,
+            Price = listingDTO.Price,
+            Bedrooms = listingDTO.Bedrooms,
+            Bathrooms = listingDTO.Bathrooms,
+            YearBuilt = listingDTO.YearBuilt,
+            HeatingType = listingDTO.HeatingType,
+            Country = listingDTO.Country,
+            City = listingDTO.City,
+            District = listingDTO.District,
             Address = listingDTO.Address,
+            ZipCode = listingDTO.ZipCode,
             Description = listingDTO.Description,
-            Price = listingDTO.Price
+            DateListed = listingDTO.DateListed,
+            IsActive = listingDTO.IsActive,
+            PhoneNumber = listingDTO.PhoneNumber,
+            NameLastName = listingDTO.NameLastName
         };
         _listings.Add(listing);
 
