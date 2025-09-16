@@ -9,6 +9,7 @@ public class ListingDTO
     public int Bedrooms { get; set; }
     public int Bathrooms { get; set; }
     public int YearBuilt { get; set; }
+    public string HeatingType { get; set; } = string.Empty;
 
     // Location
     public string Country { get; set; } = string.Empty;

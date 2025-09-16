@@ -19,6 +19,8 @@ public class Listing
     public int Bathrooms { get; set; }
     [Required]
     public int YearBuilt { get; set; }
+    [Required]
+    public string HeatingType { get; set; } = string.Empty;
 
     // Location
     [Required]
