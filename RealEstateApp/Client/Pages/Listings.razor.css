@@ -82,3 +82,68 @@
 .topbar nav a:hover {
     color: #b9e2c7;
 }
+.listings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.listing-card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.listing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+.listing-image img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.listing-details {
+    padding: 1rem;
+}
+
+.listing-details h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #0f3d2e;
+    font-weight: 700;
+}
+
+.listing-details .location {
+    margin: 0.3rem 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.listing-details .price {
+    margin: 0.8rem 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2a7a4f;
+}
+
+.listing-details .meta {
+    font-size: 0.9rem;
+    color: #444;
+    margin-bottom: 0.6rem;
+}
+
+.listing-details .agent {
+    font-size: 0.8rem;
+    color: #888;
+    font-style: italic;
+}

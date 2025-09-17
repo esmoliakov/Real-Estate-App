@@ -126,7 +126,7 @@
             var created = await ListingApiService.AddListingAsync(newListing);
 
             // Redirect to listings page after successful upload
-            NavigationManager.NavigateTo("/listings");
+            NavigationManager.NavigateTo("/");
         }
         catch (Exception ex)
         {

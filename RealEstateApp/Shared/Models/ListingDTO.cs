@@ -21,10 +21,6 @@ public class ListingDTO
     // Side info
     public string Description { get; set; } = string.Empty;
 
-    // Metadata
-    public DateTime DateListed { get; set; } = DateTime.UtcNow;
-    public bool IsActive { get; set; } = true;
-
     // Contacts
 
     public string PhoneNumber { get; set; } = string.Empty;
