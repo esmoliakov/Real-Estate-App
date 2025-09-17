@@ -30,16 +30,32 @@
     }
     else
     {
-        <ul>
+        <div class="listings-grid">
             @foreach (var listing in listings)
             {
-                <li>
-                    <a href="/listing/@listing.Id">
-                        <strong>@listing.Type</strong> in @listing.Address — @listing.Area m², @listing.Price.ToString("C")
-                    </a>
-                </li>
+                <a href="/listing/@listing.Id" class="listing-card">
+                    <!-- Image placeholder -->
+                    <div class="listing-image">
+                        <img src="https://via.placeholder.com/400x250?text=Property" alt="Property image" />
+                    </div>
+
+                    <div class="listing-details">
+                        <h4>@listing.Address</h4>
+                        <p class="location">@listing.City, @listing.District, @listing.Country</p>
+
+                        <p class="price">@listing.Price.ToString("C")</p>
+
+                        <p class="meta">
+                            <span>@listing.Bedrooms Bedrooms</span> •
+                            <span>@listing.Bathrooms Bathrooms</span> •
+                            <span>@listing.Area m²</span>
+                        </p>
+
+                        <p class="agent">Listed by @listing.NameLastName</p>
+                    </div>
+                </a>
             }
-        </ul>
+        </div>
     }
 </div>
 

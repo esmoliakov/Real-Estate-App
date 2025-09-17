@@ -38,10 +38,10 @@ class ListingService : IListingService
             Address = listingDTO.Address,
             ZipCode = listingDTO.ZipCode,
             Description = listingDTO.Description,
-            DateListed = listingDTO.DateListed,
-            IsActive = listingDTO.IsActive,
             PhoneNumber = listingDTO.PhoneNumber,
-            NameLastName = listingDTO.NameLastName
+            NameLastName = listingDTO.NameLastName,
+            DateListed = DateTime.UtcNow,
+            IsActive = true
         };
         _listings.Add(listing);
 
