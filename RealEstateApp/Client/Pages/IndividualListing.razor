@@ -29,11 +29,38 @@ else if (listing == null)
 }
 else 
 {
-    <div class="listing-details">
-        <h2>@listing.Type in @listing.Address</h2>
-        <p><strong>Area:</strong> @listing.Area m²</p>
-        <p><strong>Price:</strong> @listing.Price.ToString("C")</p>
-        <p><strong>Description:</strong> @listing.Description</p>
+    <div class="breadcrumbs">
+        Home > @listing.Country > @listing.City > @listing.District > @listing.Address
+    </div>
+
+    <div class="listing-container">
+        <!-- LEFT COLUMN -->
+        <div class="listing-main">
+            <img src="https://via.placeholder.com/800x400" alt="Property image" class="listing-image" />
+
+            <h2>@listing.Type in @listing.Address</h2>
+            <h3 class="price">@listing.Price.ToString("C")</h3>
+
+            <div class="details-grid">
+                <p><strong>Area:</strong> @listing.Area m²</p>
+                <p><strong>Bedrooms:</strong> @listing.Bedrooms</p>
+                <p><strong>Bathrooms:</strong> @listing.Bathrooms</p>
+                <p><strong>Year Built:</strong> @listing.YearBuilt</p>
+                <p><strong>Heating:</strong> @listing.HeatingType</p>
+                <p><strong>Zip Code:</strong> @listing.ZipCode</p>
+            </div>
+
+            <h4>Description</h4>
+            <p>@listing.Description</p>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="listing-sidebar">
+            <h4>Seller Information</h4>
+            <p><strong>@listing.NameLastName</strong></p>
+            <p><strong>Phone:</strong> @listing.PhoneNumber</p>
+            <p><em>Listed on: @listing.DateListed.ToShortDateString()</em></p>
+        </div>
     </div>
 }
 
