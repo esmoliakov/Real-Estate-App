@@ -11,6 +11,13 @@
     </nav>
 </div>
 
+<div class="search">
+    <input type="text" placeholder="Search by city, district, street etc. " @bind="SearchText" @bind:event="oninput"/>
+
+</div>
+
+
+
 
 
 <div class="listings-container">
@@ -31,7 +38,7 @@
     else
     {
         <div class="listings-grid">
-            @foreach (var listing in listings)
+            @foreach (var listing in filteredListings)
             {
                 <a href="/listing/@listing.Id" class="listing-card">
                     <!-- Image placeholder -->
@@ -64,6 +71,8 @@
     private List<Listing> listings = new();
     private bool isLoading;
     private string? loadError;
+    private string searchText = string.Empty;
+    private List<Listing> filteredListings = new List<Listing>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -79,6 +88,27 @@
         finally
         {
             isLoading = false;
+        }
+    }
+
+    private void ApplyFilter(){
+        if (string.IsNullOrWhiteSpace(searchText)){
+            filteredListings=listings;
+        }
+        else {
+            filteredListings=listings.
+                Where(l => l.City.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                    || l.District.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                    || l.Address.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                    || l.Type.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
+        }
+    }
+    private String SearchText{
+        get => searchText;
+        set{
+            searchText = value;
+            ApplyFilter();
         }
     }
 }
