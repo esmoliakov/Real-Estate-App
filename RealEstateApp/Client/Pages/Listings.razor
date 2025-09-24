@@ -11,13 +11,64 @@
     </nav>
 </div>
 
-<div class="search">
-    <input type="text" placeholder="Search by city, district, street etc. " @bind="SearchText" @bind:event="oninput"/>
+<div class="search-filters">
+    <h4>Filter Listings</h4>
 
+    <div class="filter-row">
+        <label>Type:</label>
+        <select @bind="Filter.Type">
+            <option value="">All</option>
+            <option>Apartment</option>
+            <option>House</option>
+        </select>
+    </div>
+
+    <div class="filter-row">
+        <label>Country:</label>
+        <input type="text" @bind="Filter.Country" placeholder="Country"/>
+    </div>
+
+    <div class="filter-row">
+        <label>City:</label>
+        <input type="text" @bind="Filter.City" placeholder="City"/>
+    </div>
+
+    <div class="filter-row">
+        <label>District:</label>
+        <input type="text" @bind="Filter.District" placeholder="District"/>
+    </div>
+
+    <div class="filter-row">
+        <label>Address:</label>
+        <input type="text" @bind="Filter.Address" placeholder="Street or address"/>
+    </div>
+
+    <div class="filter-row">
+        <label>Price:</label>
+        <input type="number" @bind="Filter.MinPrice" placeholder="Min"/> -
+        <input type="number" @bind="Filter.MaxPrice" placeholder="Max"/>
+    </div>
+
+    <div class="filter-row">
+        <label>Area (m²):</label>
+        <input type="number" @bind="Filter.MinArea" placeholder="Min"/> -
+        <input type="number" @bind="Filter.MaxArea" placeholder="Max"/>
+    </div>
+
+    <div class="filter-row">
+        <label>Bedrooms:</label>
+        <input type="number" @bind="Filter.MinBedrooms" placeholder="Min"/> -
+        <input type="number" @bind="Filter.MaxBedrooms" placeholder="Max"/>
+    </div>
+
+    <div class="filter-row">
+        <label>Bathrooms:</label>
+        <input type="number" @bind="Filter.MinBathrooms" placeholder="Min"/> -
+        <input type="number" @bind="Filter.MaxBathrooms" placeholder="Max"/>
+    </div>
+
+    <button class="btn btn-primary" @onclick="ApplyFilter">Apply Filter</button>
 </div>
-
-
-
 
 
 <div class="listings-container">
@@ -31,7 +82,7 @@
     {
         <p class="text-danger">@loadError</p>
     }
-    else if (listings.Count == 0)
+    else if (filteredListings.Count == 0)
     {
         <p>No listings available</p>
     }
@@ -69,10 +120,28 @@
 
 @code {
     private List<Listing> listings = new();
+    private List<Listing> filteredListings = new();
     private bool isLoading;
     private string? loadError;
-    private string searchText = string.Empty;
-    private List<Listing> filteredListings = new List<Listing>();
+    private ListingFilter Filter = new();
+
+    // filter model
+    private class ListingFilter
+    {
+        public string Type { get; set; } = string.Empty;
+        public string Country { get; set; } = string.Empty;
+        public string City { get; set; } = string.Empty;
+        public string District { get; set; } = string.Empty;
+        public string Address { get; set; } = string.Empty;
+        public decimal? MinPrice { get; set; }
+        public decimal? MaxPrice { get; set; }
+        public double? MinArea { get; set; }
+        public double? MaxArea { get; set; }
+        public int? MinBedrooms { get; set; }
+        public int? MaxBedrooms { get; set; }
+        public int? MinBathrooms { get; set; }
+        public int? MaxBathrooms { get; set; }
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -80,6 +149,7 @@
         try
         {
             listings = await ListingApiService.GetListingsAsync() ?? new List<Listing>();
+            ApplyFilter(); // shows all listings initialy
         }
         catch (Exception ex)
         {
@@ -91,24 +161,22 @@
         }
     }
 
-    private void ApplyFilter(){
-        if (string.IsNullOrWhiteSpace(searchText)){
-            filteredListings=listings;
-        }
-        else {
-            filteredListings=listings.
-                Where(l => l.City.Contains(searchText, StringComparison.OrdinalIgnoreCase)
-                    || l.District.Contains(searchText, StringComparison.OrdinalIgnoreCase)
-                    || l.Address.Contains(searchText, StringComparison.OrdinalIgnoreCase)
-                    || l.Type.Contains(searchText, StringComparison.OrdinalIgnoreCase)
-                ).ToList();
-        }
-    }
-    private String SearchText{
-        get => searchText;
-        set{
-            searchText = value;
-            ApplyFilter();
-        }
+    private void ApplyFilter()
+    {
+        filteredListings = listings.Where(l =>
+            (string.IsNullOrEmpty(Filter.Type) || l.Type.Equals(Filter.Type, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(Filter.Country) || l.Country.Contains(Filter.Country, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(Filter.City) || l.City.Contains(Filter.City, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(Filter.District) || l.District.Contains(Filter.District, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(Filter.Address) || l.Address.Contains(Filter.Address, StringComparison.OrdinalIgnoreCase)) &&
+            (!Filter.MinPrice.HasValue || l.Price >= Filter.MinPrice.Value) &&
+            (!Filter.MaxPrice.HasValue || l.Price <= Filter.MaxPrice.Value) &&
+            (!Filter.MinArea.HasValue || l.Area >= Filter.MinArea.Value) &&
+            (!Filter.MaxArea.HasValue || l.Area <= Filter.MaxArea.Value) &&
+            (!Filter.MinBedrooms.HasValue || l.Bedrooms >= Filter.MinBedrooms.Value) &&
+            (!Filter.MaxBedrooms.HasValue || l.Bedrooms <= Filter.MaxBedrooms.Value) &&
+            (!Filter.MinBathrooms.HasValue || l.Bathrooms >= Filter.MinBathrooms.Value) &&
+            (!Filter.MaxBathrooms.HasValue || l.Bathrooms <= Filter.MaxBathrooms.Value)
+        ).ToList();
     }
 }
