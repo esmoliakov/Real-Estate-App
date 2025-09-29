@@ -1,30 +1,34 @@
 using RealEstateApp.Shared.Models;
 using Shared.Services;
 using Microsoft.AspNetCore.Http;
+using Server.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Server.Services;
 
-class ListingService : IListingService
+public class ListingService : IListingService
 {
-    private readonly List<Listing> _listings = new(); // in memory
-    private int _nextId = 1;
+    private readonly RealEstateDbContext _context;
 
-    public Task<List<Listing>> GetListingsAsync()
+    public ListingService(RealEstateDbContext context)
     {
-        return Task.FromResult(_listings);
+        _context = context;
     }
 
-    public Task<Listing?> GetListingsByIdAsync(int id)
+    public async Task<List<Listing>> GetListingsAsync()
     {
-        var listing = _listings.FirstOrDefault(l => l.Id == id);
-        return Task.FromResult(listing);
+        return await _context.Listings.ToListAsync();
     }
 
-    public Task<Listing> AddListingAsync(ListingDTO listingDTO)
+    public async Task<Listing?> GetListingsByIdAsync(int id)
+    {
+        return await _context.Listings.FindAsync(id);
+    }
+
+    public async Task<Listing> AddListingAsync(ListingDTO listingDTO)
     {
         var listing = new Listing
         {
-            Id = _nextId++,
             Type = listingDTO.Type,
             Area = listingDTO.Area,
             Price = listingDTO.Price,
@@ -43,8 +47,9 @@ class ListingService : IListingService
             DateListed = DateTime.UtcNow,
             IsActive = true
         };
-        _listings.Add(listing);
 
-        return Task.FromResult(listing);
+        _context.Listings.Add(listing);
+        await _context.SaveChangesAsync();
+        return listing;
     }
 }

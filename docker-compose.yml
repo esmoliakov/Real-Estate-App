@@ -1,0 +1,15 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: realestate-sql
+    environment:
+      SA_PASSWORD: "DatabasePass1!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    networks:
+      - realestate-network
+
+networks:
+  realestate-network:
+    driver: bridge
