@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Server.Data;
 using Server.Services;
 using Shared.Services;
+using DotNetEnv;
+
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +14,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 
-// Configure DbContext to use SQL Server
+var server = Environment.GetEnvironmentVariable("DB_SERVER");
+var database = Environment.GetEnvironmentVariable("DB_NAME");
+var user = Environment.GetEnvironmentVariable("DB_USER");
+var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+var connectionString = $"Server={server};Database={database};User Id={user};Password={password};TrustServerCertificate=True;";
 builder.Services.AddDbContext<RealEstateDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connectionString));
 
 // Register your ListingService as scoped
 builder.Services.AddScoped<IListingService, ListingService>();

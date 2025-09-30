@@ -10,6 +10,18 @@ services:
     networks:
       - realestate-network
 
+  api:
+    build: ./Server
+    environment:
+      DB_SERVER: "${DB_SERVER}"
+      DB_NAME: "${DB_NAME}"
+      DB_USER: "${DB_USER}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+    depends_on:
+      - sqlserver
+    networks:
+      - realestate-network
+
 networks:
   realestate-network:
     driver: bridge
