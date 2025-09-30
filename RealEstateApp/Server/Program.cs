@@ -1,17 +1,34 @@
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
+using Server.Data;
 using Server.Services;
 using Shared.Services;
+using DotNetEnv;
+
+Env.Load();
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Add services to the container
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddSingleton<IListingService, ListingService>();
+
+
+var server = Environment.GetEnvironmentVariable("DB_SERVER");
+var database = Environment.GetEnvironmentVariable("DB_NAME");
+var user = Environment.GetEnvironmentVariable("DB_USER");
+var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+var connectionString = $"Server={server};Database={database};User Id={user};Password={password};TrustServerCertificate=True;";
+builder.Services.AddDbContext<RealEstateDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+// Register your ListingService as scoped
+builder.Services.AddScoped<IListingService, ListingService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
@@ -19,17 +36,14 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 
 app.MapRazorPages();
 app.MapControllers();
