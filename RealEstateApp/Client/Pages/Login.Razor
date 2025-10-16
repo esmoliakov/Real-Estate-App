@@ -1,0 +1,74 @@
+@page "/login"
+@inject RealEstateApp.Client.Services.AuthService AuthService
+@inject NavigationManager NavigationManager
+
+<h3>Login / Register</h3>
+
+<div class="auth-container">
+    <div class="form-group">
+        <label>Username</label>
+        <InputText class="form-control" @bind-Value="username" />
+    </div>
+
+    <div class="form-group">
+        <label>Password</label>
+        <InputText class="form-control" type="password" @bind-Value="password" />
+    </div>
+
+    <div class="button-group mt-2">
+        <button class="btn btn-primary me-2" @onclick="HandleLogin">Login</button>
+        <button class="btn btn-secondary" @onclick="HandleRegister">Register</button>
+    </div>
+
+    @if (!string.IsNullOrEmpty(message))
+    {
+        <div class="mt-2 text-danger">@message</div>
+    }
+</div>
+
+@code {
+    private string username = string.Empty;
+    private string password = string.Empty;
+    private string? message;
+
+    private async Task HandleLogin()
+    {
+        message = null;
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+        {
+            message = "Username and password are required.";
+            return;
+        }
+
+        bool success = await AuthService.LoginAsync(username, password);
+        if (success)
+        {
+            // Redirect to the upload page or homepage
+            NavigationManager.NavigateTo("/upload");
+        }
+        else
+        {
+            message = "Invalid username or password.";
+        }
+    }
+
+    private async Task HandleRegister()
+    {
+        message = null;
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+        {
+            message = "Username and password are required.";
+            return;
+        }
+
+        bool success = await AuthService.RegisterAsync(username, password);
+        if (success)
+        {
+            message = "Registration successful! You can now log in.";
+        }
+        else
+        {
+            message = "Username already exists or registration failed.";
+        }
+    }
+}

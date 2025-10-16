@@ -1,6 +1,7 @@
 @page "/upload"
 
 @using RealEstateApp.Shared.Models
+@inject RealEstateApp.Client.Services.AuthService AuthService
 @inject RealEstateApp.Client.Services.ListingApiService ListingApiService
 @inject NavigationManager NavigationManager
 
@@ -15,100 +16,114 @@
 
 <h3>You can upload a listing here</h3>
 
-<EditForm Model="@newListing" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
 
-    <!-- Basic Info -->
-    <div class="form-row">
-        <label>Type</label>
-        <InputSelect class="form-control" @bind-Value="newListing.Type">
-            <option value="" disabled selected hidden>-- Select Type --</option>
-            <option value="Apartment">Apartment</option>
-            <option value="House">House</option>
-        </InputSelect>
+@if (!AuthService.IsAuthenticated)
+{
+    <div>
+        <p>You must log in to upload a listing.</p>
+        <button class="btn btn-primary" @onclick="GoToLogin">Go to Login</button>
     </div>
+}
+else
+{
 
-    <div class="form-row">
-        <label>Area (m²)</label>
-        <InputNumber class="form-control" @bind-Value="newListing.Area" />
-    </div>
+    <EditForm Model="@newListing" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-    <div class="form-row">
-        <label>Price</label>
-        <InputNumber class="form-control" @bind-Value="newListing.Price" />
-    </div>
+        <!-- Basic Info -->
+        <div class="form-row">
+            <label>Type</label>
+            <InputSelect class="form-control" @bind-Value="newListing.Type">
+                <option value="" disabled selected hidden>-- Select Type --</option>
+                <option value="Apartment">Apartment</option>
+                <option value="House">House</option>
+            </InputSelect>
+        </div>
 
-    <div class="form-row">
-        <label>Bedrooms</label>
-        <InputNumber class="form-control" @bind-Value="newListing.Bedrooms" />
-    </div>
+        <div class="form-row">
+            <label>Area (m²)</label>
+            <InputNumber class="form-control" @bind-Value="newListing.Area" />
+        </div>
 
-    <div class="form-row">
-        <label>Bathrooms</label>
-        <InputNumber class="form-control" @bind-Value="newListing.Bathrooms" />
-    </div>
+        <div class="form-row">
+            <label>Price</label>
+            <InputNumber class="form-control" @bind-Value="newListing.Price" />
+        </div>
 
-    <div class="form-row">
-        <label>Year Built</label>
-        <InputNumber class="form-control" @bind-Value="newListing.YearBuilt" />
-    </div>
+        <div class="form-row">
+            <label>Bedrooms</label>
+            <InputNumber class="form-control" @bind-Value="newListing.Bedrooms" />
+        </div>
 
-    <div class="form-row">
-        <label>Heating Type</label>
-        <InputText class="form-control" @bind-Value="newListing.HeatingType" />
-    </div>
+        <div class="form-row">
+            <label>Bathrooms</label>
+            <InputNumber class="form-control" @bind-Value="newListing.Bathrooms" />
+        </div>
 
-    <!-- Location -->
-    <div class="form-row">
-        <label>Country</label>
-        <InputText class="form-control" @bind-Value="newListing.Country" />
-    </div>
+        <div class="form-row">
+            <label>Year Built</label>
+            <InputNumber class="form-control" @bind-Value="newListing.YearBuilt" />
+        </div>
 
-    <div class="form-row">
-        <label>City</label>
-        <InputText class="form-control" @bind-Value="newListing.City" />
-    </div>
+        <div class="form-row">
+            <label>Heating Type</label>
+            <InputText class="form-control" @bind-Value="newListing.HeatingType" />
+        </div>
 
-    <div class="form-row">
-        <label>District</label>
-        <InputText class="form-control" @bind-Value="newListing.District" />
-    </div>
+        <!-- Location -->
+        <div class="form-row">
+            <label>Country</label>
+            <InputText class="form-control" @bind-Value="newListing.Country" />
+        </div>
 
-    <div class="form-row">
-        <label>Address</label>
-        <InputText class="form-control" @bind-Value="newListing.Address" />
-    </div>
+        <div class="form-row">
+            <label>City</label>
+            <InputText class="form-control" @bind-Value="newListing.City" />
+        </div>
 
-    <div class="form-row">
-        <label>Zip Code</label>
-        <InputText class="form-control" @bind-Value="newListing.ZipCode" />
-    </div>
+        <div class="form-row">
+            <label>District</label>
+            <InputText class="form-control" @bind-Value="newListing.District" />
+        </div>
 
-    <!-- Side Info -->
-    <div class="Description">
-        <label>Description</label>
-        <InputTextArea class="form-control" @bind-Value="newListing.Description" />
-    </div>
+        <div class="form-row">
+            <label>Address</label>
+            <InputText class="form-control" @bind-Value="newListing.Address" />
+        </div>
 
-    <!-- Contact Info -->
-    <div class="form-row">
-        <label>Contact Name</label>
-        <InputText class="form-control" @bind-Value="newListing.NameLastName" />
-    </div>
+        <div class="form-row">
+            <label>Zip Code</label>
+            <InputText class="form-control" @bind-Value="newListing.ZipCode" />
+        </div>
 
-    <div class="form-row">
-        <label>Phone Number</label>
-        <InputText class="form-control" @bind-Value="newListing.PhoneNumber" />
-    </div>
+        <!-- Side Info -->
+        <div class="Description">
+            <label>Description</label>
+            <InputTextArea class="form-control" @bind-Value="newListing.Description" />
+        </div>
 
-    <button type="submit" class="btn btn-primary" disabled="@isSubmitting">Submit</button>
+        <!-- Contact Info -->
+        <div class="form-row">
+            <label>Contact Name</label>
+            <InputText class="form-control" @bind-Value="newListing.NameLastName" />
+        </div>
 
-    @if (!string.IsNullOrEmpty(formError))
-    {
-        <div class="text-danger mt-2">@formError</div>
-    }
-</EditForm>
+        <div class="form-row">
+            <label>Phone Number</label>
+            <InputText class="form-control" @bind-Value="newListing.PhoneNumber" />
+        </div>
+
+        <button type="submit" class="btn btn-primary" disabled="@isSubmitting">Submit</button>
+
+        @if (!string.IsNullOrEmpty(formError))
+        {
+            <div class="text-danger mt-2">@formError</div>
+        }
+    </EditForm>
+}
+
+
 
 @code {
     private ListingDTO newListing = new ListingDTO();
@@ -137,4 +152,5 @@
             isSubmitting = false;
         }
     }
+    void GoToLogin() => NavigationManager.NavigateTo("/login");
 }
