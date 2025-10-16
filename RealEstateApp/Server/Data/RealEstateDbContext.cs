@@ -9,4 +9,5 @@ public class RealEstateDbContext : DbContext
         : base(options) { }
 
     public DbSet<Listing> Listings { get; set; }
+    public DbSet<User> Users { get; set; }
 }
