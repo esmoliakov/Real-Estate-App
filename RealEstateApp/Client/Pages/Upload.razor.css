@@ -18,7 +18,9 @@ body {
     letter-spacing: 0.5px;
 }
 
-.topbar span.brand {
+.topbar span.brand a{
+    color: #FFF;
+    text-decoration: none;
     font-size: 1.4rem;
     font-weight: 700;
     margin-right: 2rem;
