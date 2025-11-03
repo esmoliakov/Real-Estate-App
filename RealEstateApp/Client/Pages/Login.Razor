@@ -2,28 +2,41 @@
 @inject RealEstateApp.Client.Services.AuthService AuthService
 @inject NavigationManager NavigationManager
 
-<h3>Login / Register</h3>
+<!-- Topbar -->
+<div class="topbar">
+    <span class="brand"><a href="/">RealeCOM</a></span>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/upload">Upload a listing</a>
+        <a href ="/login">Sign in/Sign up</a>
+    </nav>
+</div>
 
-<div class="auth-container">
-    <div class="form-group">
-        <label>Username</label>
-        <InputText class="form-control" @bind-Value="username" />
+<div class="login-page">
+    <!-- Login card -->
+    <div class="auth-container">
+        <h3>Login / Register</h3>
+
+        <div class="form-group">
+            <label>Username</label>
+            <InputText class="form-control" @bind-Value="username" />
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <InputText class="form-control" type="password" @bind-Value="password" />
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-primary" @onclick="HandleLogin">Login</button>
+            <button class="btn btn-secondary" @onclick="HandleRegister">Register</button>
+        </div>
+
+        @if (!string.IsNullOrEmpty(message))
+        {
+            <div class="text-danger">@message</div>
+        }
     </div>
-
-    <div class="form-group">
-        <label>Password</label>
-        <InputText class="form-control" type="password" @bind-Value="password" />
-    </div>
-
-    <div class="button-group mt-2">
-        <button class="btn btn-primary me-2" @onclick="HandleLogin">Login</button>
-        <button class="btn btn-secondary" @onclick="HandleRegister">Register</button>
-    </div>
-
-    @if (!string.IsNullOrEmpty(message))
-    {
-        <div class="mt-2 text-danger">@message</div>
-    }
 </div>
 
 @code {
@@ -43,7 +56,6 @@
         bool success = await AuthService.LoginAsync(username, password);
         if (success)
         {
-            // Redirect to the upload page or homepage
             NavigationManager.NavigateTo("/upload");
         }
         else
