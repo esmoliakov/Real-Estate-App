@@ -1,0 +1,43 @@
+/* --------------------- Topbar --------------------- */
+.topbar {
+    background: #0f3d2e;
+    color: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+}
+
+.topbar span.brand a{
+    color: #FFF;
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-right: 2rem;
+}
+
+.topbar nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex: 1;
+}
+
+.topbar nav a {
+    color: #fff;
+    margin-right: 1.5rem;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+}
+
+.topbar nav a:hover {
+    color: #b9e2c7;
+}
+
+.login {
+    margin-left: auto;
+}

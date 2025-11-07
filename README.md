@@ -1,5 +1,3 @@
 # Real-Estate-App
 
-* remove top bar
-* make 0 disappear
-* make login in topr ght
+* make 0 disappear in upload
