@@ -4,10 +4,12 @@
 @inject RealEstateApp.Client.Services.AuthService AuthService
 @inject RealEstateApp.Client.Services.ListingApiService ListingApiService
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JS
 
 <head>
     <PageTitle>Upload a Listing</PageTitle>
     <link rel="stylesheet" href="css/global.css" />
+    <script src="js/helper.js"></script>
 </head>
 
 <div class="topbar">
@@ -31,101 +33,102 @@
 }
 else
 {
+    <div class="editforma">
+        <EditForm Model="@newListing" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
 
-    <EditForm Model="@newListing" OnValidSubmit="HandleValidSubmit">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
+            <!-- Basic Info -->
+            <div class="form-row">
+                <label>Type</label>
+                <InputSelect class="form-control" @bind-Value="newListing.Type">
+                    <option value="" disabled selected hidden>-- Select Type --</option>
+                    <option value="Apartment">Apartment</option>
+                    <option value="House">House</option>
+                </InputSelect>
+            </div>
 
-        <!-- Basic Info -->
-        <div class="form-row">
-            <label>Type</label>
-            <InputSelect class="form-control" @bind-Value="newListing.Type">
-                <option value="" disabled selected hidden>-- Select Type --</option>
-                <option value="Apartment">Apartment</option>
-                <option value="House">House</option>
-            </InputSelect>
-        </div>
+            <div class="form-row">
+                <label>Area (m²)</label>
+                <input type="number" @ref="areaRef" class="form-control" @bind="newListing.Area" @onfocus="() => SelectInput(areaRef)" required />
+            </div>
 
-        <div class="form-row">
-            <label>Area (m²)</label>
-            <InputNumber class="form-control" @bind-Value="newListing.Area" />
-        </div>
+            <div class="form-row">
+                <label>Price</label>
+                <input type="number" class="form-control" @bind="newListing.Price" @ref="priceRef" @onfocus="() => SelectInput(priceRef)" required />
+            </div>
 
-        <div class="form-row">
-            <label>Price</label>
-            <InputNumber class="form-control" @bind-Value="newListing.Price" />
-        </div>
+            <div class="form-row">
+                <label>Bedrooms</label>
+                <input type="number" class="form-control" @bind="newListing.Bedrooms" @ref="bedroomsRef" @onfocus="() => SelectInput(bedroomsRef)" required />
+            </div>
 
-        <div class="form-row">
-            <label>Bedrooms</label>
-            <InputNumber class="form-control" @bind-Value="newListing.Bedrooms" />
-        </div>
+            <div class="form-row">
+                <label>Bathrooms</label>
+                <input type="number" class="form-control" @bind="newListing.Bathrooms" @ref="bathroomsRef" @onfocus="() => SelectInput(bathroomsRef)" required />
+            </div>
 
-        <div class="form-row">
-            <label>Bathrooms</label>
-            <InputNumber class="form-control" @bind-Value="newListing.Bathrooms" />
-        </div>
+            <div class="form-row">
+                <label>Year Built</label>
+                <input type="number" class="form-control" @bind="newListing.YearBuilt" @ref="yearBuiltRef" @onfocus="() => SelectInput(yearBuiltRef)" required />
+            </div>
 
-        <div class="form-row">
-            <label>Year Built</label>
-            <InputNumber class="form-control" @bind-Value="newListing.YearBuilt" />
-        </div>
+            <div class="form-row">
+                <label>Heating Type</label>
+                <InputText class="form-control" @bind-Value="newListing.HeatingType" required/>
+            </div>
 
-        <div class="form-row">
-            <label>Heating Type</label>
-            <InputText class="form-control" @bind-Value="newListing.HeatingType" />
-        </div>
+            <!-- Location -->
+            <div class="form-row">
+                <label>Country</label>
+                <InputText class="form-control" @bind-Value="newListing.Country" required/>
+            </div>
 
-        <!-- Location -->
-        <div class="form-row">
-            <label>Country</label>
-            <InputText class="form-control" @bind-Value="newListing.Country" />
-        </div>
+            <div class="form-row">
+                <label>City</label>
+                <InputText class="form-control" @bind-Value="newListing.City" required/>
+            </div>
 
-        <div class="form-row">
-            <label>City</label>
-            <InputText class="form-control" @bind-Value="newListing.City" />
-        </div>
+            <div class="form-row">
+                <label>District</label>
+                <InputText class="form-control" @bind-Value="newListing.District" required/>
+            </div>
 
-        <div class="form-row">
-            <label>District</label>
-            <InputText class="form-control" @bind-Value="newListing.District" />
-        </div>
+            <div class="form-row">
+                <label>Address</label>
+                <InputText class="form-control" @bind-Value="newListing.Address" required/>
+            </div>
 
-        <div class="form-row">
-            <label>Address</label>
-            <InputText class="form-control" @bind-Value="newListing.Address" />
-        </div>
+            <div class="form-row">
+                <label>Zip Code</label>
+                <InputText class="form-control" @bind-Value="newListing.ZipCode" required/>
+            </div>
 
-        <div class="form-row">
-            <label>Zip Code</label>
-            <InputText class="form-control" @bind-Value="newListing.ZipCode" />
-        </div>
+            <!-- Side Info -->
+            <div class="Description">
+                <label>Description</label>
+                <InputTextArea class="form-control" @bind-Value="newListing.Description" required/>
+            </div>
 
-        <!-- Side Info -->
-        <div class="Description">
-            <label>Description</label>
-            <InputTextArea class="form-control" @bind-Value="newListing.Description" />
-        </div>
+            <!-- Contact Info -->
+            <div class="form-row">
+                <label>Contact Name</label>
+                <InputText class="form-control" @bind-Value="newListing.NameLastName" required/>
+            </div>
 
-        <!-- Contact Info -->
-        <div class="form-row">
-            <label>Contact Name</label>
-            <InputText class="form-control" @bind-Value="newListing.NameLastName" />
-        </div>
+            <div class="form-row">
+                <label>Phone Number</label>
+                <InputText class="form-control" @bind-Value="newListing.PhoneNumber" required/>
+            </div>
 
-        <div class="form-row">
-            <label>Phone Number</label>
-            <InputText class="form-control" @bind-Value="newListing.PhoneNumber" />
-        </div>
+            <button type="submit" class="btn btn-primary" disabled="@isSubmitting">Submit</button>
 
-        <button type="submit" class="btn btn-primary" disabled="@isSubmitting">Submit</button>
-
-        @if (!string.IsNullOrEmpty(formError))
-        {
-            <div class="text-danger mt-2">@formError</div>
-        }
-    </EditForm>
+            @if (!string.IsNullOrEmpty(formError))
+            {
+                <div class="text-danger mt-2">@formError</div>
+            }
+        </EditForm>
+    </div>
 }
 
 
@@ -158,4 +161,15 @@ else
         }
     }
     void GoToLogin() => NavigationManager.NavigateTo("/login");
+
+    ElementReference areaRef;
+    ElementReference priceRef;
+    ElementReference bedroomsRef;
+    ElementReference bathroomsRef;
+    ElementReference yearBuiltRef;
+
+    private async Task SelectInput(ElementReference element)
+    {
+        await JS.InvokeVoidAsync("selectOnFocus", element);
+    }
 }

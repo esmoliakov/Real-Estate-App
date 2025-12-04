@@ -13,46 +13,74 @@ h3 {
     font-weight: 600;
 }
 
-EditForm {
+.editforma {
     display: block;
     max-width: 450px;
     margin: 1rem auto 3rem;
-    padding: 1.5rem;
+    padding-left: 3.5rem;
+    padding-top: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom: 1.5rem;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
 }
 
+.form-control,
+.Description textarea {
+    width: 220px;
+    height: 30px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+    border: 1px solid #cfd6dd;
+    border-radius: 4px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.Description textarea {
+    height: 90px;
+    resize: vertical;
+}
+
+.form-control:focus,
+.Description textarea:focus {
+    border-color: #0f3d2e;
+    box-shadow: 0 0 3px rgba(15, 61, 46, 0.20);
+}
+
 label {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.25rem;
     display: inline-block;
     color: #333;
 }
 
-.form-control {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.9rem;
-    border: 1px solid #cfd6dd;
-    border-radius: 5px;
-    outline: none;
-    transition: border-color 0.25s, box-shadow 0.25s;
+.form-row {
+    display: flex;
+    width: 220px;
+    align-items: center;
+    margin-bottom: 0.7rem;
 }
 
-.form-control:focus {
-    border-color: #0f3d2e;
-    box-shadow: 0 0 4px rgba(15, 61, 46, 0.25);
+.form-row label {
+    width: 120px;
+    margin: 0;
+    font-size: 0.85rem;
 }
 
-
+.form-row .form-control {
+    margin-left: 10px;
+}
 
 .btn-primary {
     background: #0f3d2e;
     border: none;
     border-radius: 5px;
-    padding: 0.6rem 1.2rem;
-    font-size: 0.95rem;
+    padding: 0.55rem 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: #fff;
     cursor: pointer;
@@ -68,32 +96,4 @@ label {
 .btn-primary:disabled {
     background: #9eb3aa;
     cursor: not-allowed;
-}
-
-.text-danger {
-    font-size: 0.85rem;
-    margin-top: 0.4rem;
-    color: #d9534f;
-    text-align: center;
-}
-.form-row {
-    display: flex;
-    width: 220px;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-.form-row label {
-    width: 120px;
-    margin: 0;
-}
-
-.form-row .form-control {
-    width: 250px;
-}
-
-.Description {
-    min-height: 200px;
-    width: 300px;
-    resize: both;
-    overflow: auto;
 }
