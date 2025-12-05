@@ -1,16 +1,20 @@
 using System.Net.Http.Json;
+using System.Text.Json;
+using Microsoft.JSInterop;
 
 namespace RealEstateApp.Client.Services;
 
 public class AuthService
 {
     private readonly HttpClient _http;
+    private readonly IJSRuntime _js;
     public bool IsAuthenticated { get; private set; }
     public string? Username { get; private set; }
 
-    public AuthService(HttpClient http)
+    public AuthService(HttpClient http, IJSRuntime js)
     {
         _http = http;
+        _js = js;
     }
 
     public async Task<bool> LoginAsync(string username, string password)
@@ -20,6 +24,11 @@ public class AuthService
         {
             IsAuthenticated = true;
             Username = username;
+
+            // Save to localStorage
+            var userJson = JsonSerializer.Serialize(new { username });
+            await _js.InvokeVoidAsync("localStorage.setItem", "authUser", userJson);
+
             return true;
         }
         return false;
@@ -31,9 +40,30 @@ public class AuthService
         return response.IsSuccessStatusCode;
     }
 
-    public void Logout()
+    public async Task LogoutAsync()
     {
         IsAuthenticated = false;
         Username = null;
+        await _js.InvokeVoidAsync("localStorage.removeItem", "authUser");
     }
+
+    // Call this on app startup to restore login state
+    public async Task RestoreLoginAsync()
+    {
+        var json = await _js.InvokeAsync<string>("localStorage.getItem", "authUser");
+        if (!string.IsNullOrEmpty(json))
+        {
+            var user = JsonSerializer.Deserialize<StoredUser>(json);
+            if (user != null)
+            {
+                IsAuthenticated = true;
+                Username = user.Username;
+            }
+        }
+    }
+    private class StoredUser
+    {
+        public string Username { get; set; } = string.Empty;
+    }
+
 }
