@@ -1,6 +1,7 @@
 @page "/upload"
 
 @using RealEstateApp.Shared.Models
+@using RealEstateApp.Client.Services;
 @inject RealEstateApp.Client.Services.AuthService AuthService
 @inject RealEstateApp.Client.Services.ListingApiService ListingApiService
 @inject NavigationManager NavigationManager
@@ -171,5 +172,9 @@ else
     private async Task SelectInput(ElementReference element)
     {
         await JS.InvokeVoidAsync("selectOnFocus", element);
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthService.RestoreLoginAsync();
     }
 }

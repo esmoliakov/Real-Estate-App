@@ -1,0 +1,23 @@
+@using Microsoft.AspNetCore.Components.Routing
+@using RealEstateApp.Client.Services
+@inject AuthService AuthService
+
+<CascadingValue Value="AuthService">
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p>Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingValue>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthService.RestoreLoginAsync();
+    }
+}
