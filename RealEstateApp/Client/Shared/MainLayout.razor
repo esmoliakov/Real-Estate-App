@@ -1,9 +1,44 @@
-﻿@inherits LayoutComponentBase
+﻿@using RealEstateApp.Client.Services;
+@inherits LayoutComponentBase;
+@inject AuthService AuthService
+@inject NavigationManager Nav
 
-<div class="page">
-    <main>
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+<div class="topbar">
+    <span class="brand"><a href="/">RealeCOM</a></span>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/upload">Upload a listing</a>
+
+        @if (AuthService.IsAuthenticated)
+        {
+            <button class="logout" @onclick="Logout">
+                Logout
+            </button>
+        }
+        else
+        {
+            <a href="/login" class="login">Sign in/Sign up</a>
+        }
+    </nav>
 </div>
+
+@Body
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        AuthService.OnChange += StateHasChanged;
+        await AuthService.RestoreLoginAsync();
+    }
+
+    public void Dispose()
+    {
+        AuthService.OnChange -= StateHasChanged;
+    }
+
+    private async Task Logout()
+    {
+        await AuthService.LogoutAsync();
+        Nav.NavigateTo("/");
+    }
+}

@@ -7,29 +7,18 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
 
-<head>
-    <PageTitle>Upload a Listing</PageTitle>
-    <link rel="stylesheet" href="css/global.css" />
-    <script src="js/helper.js"></script>
-</head>
-
-<div class="topbar">
-    <span class="brand"><a href="/">RealeCOM</a></span>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/upload">Upload a listing</a>
-        <a href ="/login" class="login" >Sign in/Sign up</a>
-    </nav>
-</div>
+<PageTitle>Upload a Listing</PageTitle>
 
 <h3>You can upload a listing here</h3>
 
 
 @if (!AuthService.IsAuthenticated)
 {
-    <div>
-        <p>You must log in to upload a listing.</p>
-        <button class="btn btn-primary" @onclick="GoToLogin">Go to Login</button>
+    <div class="center-container">
+        <div class="login-card">
+            <p>You must log in to upload a listing.</p>
+            <button class="btn btn-primary" @onclick="GoToLogin">Go to Login</button>
+        </div>
     </div>
 }
 else
