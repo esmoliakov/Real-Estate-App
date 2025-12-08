@@ -6,6 +6,9 @@ namespace RealEstateApp.Client.Services;
 
 public class AuthService
 {
+    public event Action? OnChange;
+    private void NotifyStateChanged() => OnChange?.Invoke();
+
     private readonly HttpClient _http;
     private readonly IJSRuntime _js;
     public bool IsAuthenticated { get; private set; }
@@ -29,6 +32,7 @@ public class AuthService
             var userJson = JsonSerializer.Serialize(new { username });
             await _js.InvokeVoidAsync("localStorage.setItem", "authUser", userJson);
 
+            NotifyStateChanged();
             return true;
         }
         return false;
@@ -45,6 +49,7 @@ public class AuthService
         IsAuthenticated = false;
         Username = null;
         await _js.InvokeVoidAsync("localStorage.removeItem", "authUser");
+        NotifyStateChanged();
     }
 
     // Call this on app startup to restore login state
@@ -58,6 +63,7 @@ public class AuthService
             {
                 IsAuthenticated = true;
                 Username = user.Username;
+                NotifyStateChanged();
             }
         }
     }

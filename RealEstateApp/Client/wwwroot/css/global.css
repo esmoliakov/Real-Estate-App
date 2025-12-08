@@ -41,3 +41,8 @@
 .login {
     margin-left: auto;
 }
+.topbar button {
+    margin-right: 1rem;
+    color: black;
+    background-color: black;
+}

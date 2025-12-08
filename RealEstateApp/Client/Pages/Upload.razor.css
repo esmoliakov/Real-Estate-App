@@ -97,3 +97,22 @@ label {
     background: #9eb3aa;
     cursor: not-allowed;
 }
+
+.login-card {
+    display: block;
+    width: 300px;
+    padding: 30px 20px 20px 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    background-color: #fff;
+}
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 50px;
+    height: 100vh;
+}
