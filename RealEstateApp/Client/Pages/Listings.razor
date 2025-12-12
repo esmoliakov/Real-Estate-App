@@ -82,7 +82,7 @@
     else
     {
         <div class="listings-grid">
-            @foreach (var listing in filteredListings)
+            @foreach (var listing in PagedListings)
             {
                 <a href="/listing/@listing.Id" class="listing-card">
                     <!-- Image placeholder -->
@@ -107,6 +107,21 @@
                 </a>
             }
         </div>
+        @if (TotalPages > 1)
+        {
+            <div class="pagination">
+                <button @onclick="PreviousPage" disabled="@(CurrentPage == 1)">Previous</button>
+
+                @for (int i = 1; i <= TotalPages; i++)
+                {
+                    var pageNumber = i;
+                    <button class="@(pageNumber == CurrentPage ? "active-page" : "")"
+                            @onclick="() => GoToPage(pageNumber)">@pageNumber</button>
+                }
+
+                <button @onclick="NextPage" disabled="@(CurrentPage == TotalPages)">Next</button>
+            </div>
+        }
     }
 </div>
 
@@ -117,6 +132,14 @@
     private bool isLoading;
     private string? loadError;
     private ListingFilter Filter = new();
+    private int CurrentPage = 1;
+    private int PageSize = 10;
+    private int TotalPages => (int)Math.Ceiling((double)filteredListings.Count / PageSize);
+    private List<Listing> PagedListings =>
+    filteredListings
+        .Skip((CurrentPage - 1) * PageSize)
+        .Take(PageSize)
+        .ToList();
 
     // filter model
     private class ListingFilter
@@ -171,5 +194,25 @@
             (!Filter.MinBathrooms.HasValue || l.Bathrooms >= Filter.MinBathrooms.Value) &&
             (!Filter.MaxBathrooms.HasValue || l.Bathrooms <= Filter.MaxBathrooms.Value)
         ).ToList();
+
+        CurrentPage = 1;
+    }
+
+    private void NextPage()
+    {
+        if (CurrentPage < TotalPages)
+            CurrentPage++;
+    }
+
+    private void PreviousPage()
+    {
+        if (CurrentPage > 1)
+            CurrentPage--;
+    }
+
+    private void GoToPage(int page)
+    {
+        if (page >= 1 && page <= TotalPages)
+            CurrentPage = page;
     }
 }

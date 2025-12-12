@@ -41,8 +41,18 @@
 .login {
     margin-left: auto;
 }
-.topbar button {
-    margin-right: 1rem;
+
+.topbar button.logout {
+    margin-left: auto; /* pushes the button to the right */
     color: black;
-    background-color: black;
+    background-color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 4px;
+}
+
+.topbar button.logout:hover {
+    background-color: #f0f0f0;
 }
