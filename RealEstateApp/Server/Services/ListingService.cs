@@ -1,23 +1,37 @@
 using RealEstateApp.Shared.Models;
 using Shared.Services;
-using Microsoft.AspNetCore.Http;
-using Server.Data;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
+using System.Text.Json;
+using Server.Data;
 
 namespace Server.Services;
 
 public class ListingService : IListingService
 {
     private readonly RealEstateDbContext _context;
+    private readonly IDatabase _redisDb;
+    private const string CacheKey = "AllListings";
 
-    public ListingService(RealEstateDbContext context)
+    public ListingService(RealEstateDbContext context, IConnectionMultiplexer redis)
     {
         _context = context;
+        _redisDb = redis.GetDatabase();
     }
 
     public async Task<List<Listing>> GetListingsAsync()
     {
-        return await _context.Listings.ToListAsync();
+        var cachedData = await _redisDb.StringGetAsync(CacheKey);
+        if (cachedData.HasValue)
+        {
+            return JsonSerializer.Deserialize<List<Listing>>(cachedData);
+        }
+
+        var listings = await _context.Listings.ToListAsync();
+
+        await _redisDb.StringSetAsync(CacheKey, JsonSerializer.Serialize(listings), TimeSpan.FromMinutes(5));
+
+        return listings;
     }
 
     public async Task<Listing?> GetListingsByIdAsync(int id)
@@ -50,6 +64,9 @@ public class ListingService : IListingService
 
         _context.Listings.Add(listing);
         await _context.SaveChangesAsync();
+
+        await _redisDb.KeyDeleteAsync(CacheKey);
+
         return listing;
     }
 }

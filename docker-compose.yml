@@ -1,12 +1,27 @@
-version: "3.9"
-
 services:
   api:
-    build: ./Server
+    image: mcr.microsoft.com/dotnet/aspnet:9.0
+    container_name: realestate-api
     environment:
-      DB_SERVER: "${DB_SERVER}"
-      DB_NAME: "${DB_NAME}"
-      DB_USER: "${DB_USER}"
-      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+    volumes:
+      - ./publish:/app
+      - ./datakeys:/root/.aspnet/DataProtection-Keys
+
+    working_dir: /app
+    command: ["dotnet", "RealEstateApp.Server.dll"]
     ports:
-      - "5000:80"
+      - "5000:8080"
+    depends_on:
+      - redis
+
+  redis:
+    image: "redis:7.2-alpine"
+    container_name: "realestate-redis"
+    ports:
+      - "6379:6379"

@@ -4,6 +4,7 @@ using Server.Data;
 using Server.Services;
 using Shared.Services;
 using DotNetEnv;
+using StackExchange.Redis;
 
 Env.Load();
 
@@ -23,7 +24,13 @@ var connectionString = $"Server=tcp:{server},1433;Initial Catalog={database};Per
 builder.Services.AddDbContext<RealEstateDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// Register your ListingService as scoped
+
+var redisHost = Environment.GetEnvironmentVariable("REDIS_HOST") ?? "localhost";
+var redisPort = Environment.GetEnvironmentVariable("REDIS_PORT") ?? "6379";
+
+var redisConnection = ConnectionMultiplexer.Connect($"{redisHost}:{redisPort}");
+builder.Services.AddSingleton<IConnectionMultiplexer>(redisConnection);
+
 builder.Services.AddScoped<IListingService, ListingService>();
 
 var app = builder.Build();
