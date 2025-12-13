@@ -19,7 +19,7 @@ var database = Environment.GetEnvironmentVariable("DB_NAME");
 var user = Environment.GetEnvironmentVariable("DB_USER");
 var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
 
-var connectionString = $"Server={server};Database={database};User Id={user};Password={password};TrustServerCertificate=True;";
+var connectionString = $"Server=tcp:{server},1433;Initial Catalog={database};Persist Security Info=False;User ID={user};Password={password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 builder.Services.AddDbContext<RealEstateDbContext>(options =>
     options.UseSqlServer(connectionString));
 
