@@ -1,27 +1,27 @@
 services:
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: realestate-sql
-    environment:
-      SA_PASSWORD: "DatabasePass1!"
-      ACCEPT_EULA: "Y"
-    ports:
-      - "1433:1433"
-    networks:
-      - realestate-network
-
   api:
-    build: ./Server
+    image: mcr.microsoft.com/dotnet/aspnet:9.0
+    container_name: realestate-api
     environment:
-      DB_SERVER: "${DB_SERVER}"
-      DB_NAME: "${DB_NAME}"
-      DB_USER: "${DB_USER}"
-      DB_PASSWORD: "${DB_PASSWORD}"
-    depends_on:
-      - sqlserver
-    networks:
-      - realestate-network
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+    volumes:
+      - ./publish:/app
+      - ./datakeys:/root/.aspnet/DataProtection-Keys
 
-networks:
-  realestate-network:
-    driver: bridge
+    working_dir: /app
+    command: ["dotnet", "RealEstateApp.Server.dll"]
+    ports:
+      - "5000:8080"
+    depends_on:
+      - redis
+
+  redis:
+    image: "redis:7.2-alpine"
+    container_name: "realestate-redis"
+    ports:
+      - "6379:6379"
